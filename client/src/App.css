@@ -1,0 +1,8 @@
+#root {
+  height: 100vh;
+}
+
+input.form-item-error {
+  border-color: red;
+  border-width: 2px;
+}
