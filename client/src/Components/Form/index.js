@@ -53,7 +53,6 @@ const Form = ({initialValues = {}, onFinish = null, validation = {}, className, 
         })
         
         if (onFinish && errors === 0) {
-            console.log('Form -> onFinish: ', values);
             onFinish(values)
         }
     }, [refs, onFinish, validation]);
