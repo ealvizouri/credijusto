@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { style } from "../../Utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
 
-import logo from '../../logo.png';
 import favicon from '../../favicon.png';
 
+const { colors } = style;
+
 const HeaderContainer = styled.div`
-    background-color: #72335a;
-    color: white;
+    background-color: ${colors.primary};
+    color: ${colors.white};
     display: flex;
     justify-content: space-between;
     padding: 10px 5px;
@@ -24,13 +29,16 @@ const Logout = styled.span`
 `;
 
 const Header = ({ firstName }) => {
+    const dispatch = useDispatch();
     return (<HeaderContainer>
         <Logo>
             <img src={favicon} alt="CRYPTOX - logo" />
         </Logo>
         <div>
           <span>Welcome {firstName}!</span>&nbsp;|&nbsp;
-          <Logout>Log out</Logout>
+          <Logout onClick={() =>  dispatch({ type: "UNSET_USER" })}>
+            <FontAwesomeIcon icon={faSignOutAlt} />
+          </Logout>
         </div>
     </HeaderContainer>)
 }

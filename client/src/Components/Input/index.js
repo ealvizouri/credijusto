@@ -1,13 +1,16 @@
-import { useState, forwardRef } from 'react';
+import { useState, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
+import { style } from "../../Utils";
+
+const { colors } = style;
 
 const BeautyInput = styled.input`
     appearance: none;
     background-clip: padding-box;
-    background-color: #fff;
-    border: 2px solid #d2ddec;
+    background-color: ${colors.white};
+    border: 2px solid ${colors.gray};
     border-radius: .375rem;
-    color: #12263f;
+    color: ${colors.bunting};
     display: block;
     font-size: .9375rem;
     font-weight: 400;
@@ -18,23 +21,40 @@ const BeautyInput = styled.input`
     &:focus, &:focus-visible {
         outline: none;
     }
+    &.form-item-error {
+        border-color: red;
+        border-width: 2px;
+    }
 `;
 
-const Input = forwardRef(function Input({ initialValue = '', name='', placeholder = '', width = "auto", formatter = null }, ref) {
-    const [value, setValue] = useState(initialValue);
+let selectionStart = 0;
 
-    const onChange = (event) => {
-        if (formatter && typeof formatter === 'function') setValue(formatter(event.target.value));
-        else setValue(event.target.value);
+const Input = forwardRef(function Input({ initialValue = '', name='', placeholder = '', style = {}, formatter = null, onChange = null }, ref) {
+    const [value, setValue] = useState(initialValue);
+    const hasFormatter = formatter && typeof formatter === 'function';
+
+    const _onChange = (event) => {
+        if (hasFormatter) {
+            selectionStart = event.target.selectionStart;
+            setValue(formatter(event.target.value));
+        } else setValue(event.target.value);
+        if (onChange) onChange(event.target.value);
     };
+
+    useEffect(() => {
+        if (hasFormatter && ref && ref.current) {
+            ref.current.selectionStart = selectionStart;
+            ref.current.selectionEnd = selectionStart;
+        }
+    }, [hasFormatter, value, ref]);
 
     return (<BeautyInput
         ref={ref}
         name={name}
         value={value}
-        style={{width}}
+        style={style}
         placeholder={placeholder}
-        onChange={onChange}
+        onChange={_onChange}
     />);
 })
 

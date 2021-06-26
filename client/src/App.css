@@ -1,8 +1,5 @@
 #root {
+  width: 100vw;
   height: 100vh;
-}
-
-input.form-item-error {
-  border-color: red;
-  border-width: 2px;
+  overflow-x: hidden;
 }

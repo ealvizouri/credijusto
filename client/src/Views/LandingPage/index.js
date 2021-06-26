@@ -1,18 +1,23 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { style } from "../../Utils";
 
 import logo from '../../logo.png';
 
 import Form from '../../Components/Form';
 import FormItem from '../../Components/FormItem';
 import Input from '../../Components/Input';
-import InputNumber from '../../Components/InputNumber';
 import Button from '../../Components/Button';
 import { useHistory } from 'react-router-dom';
 
+const { medias } = style;
+
 const Content = styled.div`
-  width: 50%;
+  width: 90%;
+  @media only screen and (min-width: ${medias.md}px) {
+    width: 50%;
+  }
 `;
 
 const Logo = styled.div`
@@ -20,6 +25,28 @@ const Logo = styled.div`
   text-align: center;
   img {
     width: 100px;
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  @media only screen and (min-width: ${medias.md}px) {
+    margin-right: 10px;
+  }
+`;
+
+const LoginForm = styled(Form)`
+  input {
+    width: 100%;
+    & + input {
+      margin-top: 10px;
+    }
+  }
+  @media only screen and (min-width: ${medias.md}px) {
+    input {
+      & + input {
+        margin-top: 0;
+      }
+    }
   }
 `;
 
@@ -31,10 +58,14 @@ const initialValues = {
 }
 
 const validationRules = {
-  firstName: (val) => (val.length),
-  lastName: (val) => (val.length),
-  email: (val) => (val.length),
-  phoneNumber: (val) => (val.length),
+  firstName: (val) => (val.length !== 0),
+  lastName: (val) => (val.length !== 0),
+  email: (val) => {
+    if (val.length === 0) return false;
+    if (!(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/).test(val)) return false
+    return true;
+  },
+  phoneNumber: (val) => (val.length !== 0),
 }
 
 const LangingPage = (props) => {
@@ -51,26 +82,23 @@ const LangingPage = (props) => {
       <Logo>
         <img src={logo} alt="CRYPTOX - logo" />
       </Logo>
-      <Form initialValues={initialValues} validation={validationRules} onFinish={onSubmit}>
+      <LoginForm initialValues={initialValues} validation={validationRules} onFinish={onSubmit}>
         <FormItem label="Name">
-          <Input name="firstName" placeholder="First" />
-          <Input name="lastName" placeholder="Last" />
+          <Input name="firstName" placeholder="First" width="50%" />
+          <Input name="lastName" placeholder="Last" width="50%" />
         </FormItem>
         <FormItem label="Email">
-          <Input name="email" />
+          <Input name="email" placeholder="username@example.com" width="100%" />
         </FormItem>
         <FormItem label="Phone number">
-          <Input name="phoneNumber" />
-        </FormItem>
-        <FormItem label="Number">
-          <InputNumber name="number" />
+          <Input name="phoneNumber" placeholder="+524433027641" width="100%" />
         </FormItem>
         <FormItem rightAligned>
-          <Button>
+          <SubmitButton>
             Submit
-          </Button>
+          </SubmitButton>
         </FormItem>
-      </Form>
+      </LoginForm>
     </Content>)
 }
 

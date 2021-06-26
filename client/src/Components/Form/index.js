@@ -10,14 +10,12 @@ function reducer(state, action) {
   }
 }
 
-const Form = ({initialValues = {}, onFinish = null, validation = {}, children}) => {
+const Form = ({initialValues = {}, onFinish = null, validation = {}, className, children}) => {
     const [refs, dispatchRefs] = useReducer(reducer, initialState);
 
     const [mutatedChildren, setMutatedChildren] = useState(null);
     const mapChildren = useCallback((children) => {
         return React.Children.map(children, child => {
-            // Checking isValidElement is the safe way and avoids a typescript
-            // error too.
             if (!React.isValidElement(child)) return child;
             if (child.type.render && child.type.render.name === 'Input') {
                 const newRef = createRef();
@@ -64,7 +62,7 @@ const Form = ({initialValues = {}, onFinish = null, validation = {}, children}) 
         setMutatedChildren(mapChildren(children));
     }, [mapChildren, children]);
 
-    return (<form onSubmit={onSubmit}>
+    return (<form className={className} onSubmit={onSubmit}>
         {mutatedChildren}
     </form>);
 }

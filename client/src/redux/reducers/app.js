@@ -4,18 +4,26 @@ const initialState = {
         lastName: '',
         email: '',
         phoneNumber: '',
-        token: 123,
+        token: null,
     }
 }
 
 const reducer = (currentState = initialState, action) => {
+    const newState = {
+        ...currentState,
+    }
     switch (action.type) {
         case "SET_USER":
-            const newState = {
-                ...currentState,
-                user: action.payload
+            newState.user = action.payload;
+            return newState;
+        case "UNSET_USER":
+            newState.user = {
+                firstName: '',
+                lastName: '',
+                email: '',
+                phoneNumber: '',
+                token: null,
             }
-            console.log('reducer', action.payload, newState);
             return newState;
         default: return currentState;
     }

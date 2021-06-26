@@ -1,5 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { style } from "../../Utils";
+
+const { medias } = style;
 
 const FormItemContainer = styled.div`
     margin: 10px;
@@ -19,21 +22,22 @@ const Label = styled.label`
 
 const ChildrenContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
     ${props => props.rightAligned && css`
         justify-content: flex-end;
     `}
+    @media only screen and (min-width: ${medias.md}px) {
+        flex-wrap: nowrap;
+    }
 `;
 
 const FormItem = ({label, rightAligned = false, children}) => {
     const childrenWithProps = React.Children.map(children, child => {
-        // Checking isValidElement is the safe way and avoids a typescript
-        // error too.
         if (React.isValidElement(child)) {
             return React.cloneElement(child, { doSomething: 'Yeah!' });
         }
         return child;
     });
-    // console.log(typeof childrenWithProps, childrenWithProps);
     
     return (<FormItemContainer rightAligned={rightAligned}>
         {label ? <Label>{label}</Label> : null }

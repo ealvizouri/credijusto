@@ -5,22 +5,26 @@ import {
   useLocation
 } from "react-router-dom";
 import styled, { css } from 'styled-components';
+import { style } from "./Utils";
+
+
 import LandingPage from './Views/LandingPage';
 import Home from './Views/Home';
-
 import './App.css';
+
+const { colors } = style;
 
 const AppContainer = styled.div`
   height: 100%;
-  background-color: white;
-  color: #282c34;
+  background-color: ${colors.white};
+  color: ${colors.shark};
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   ${props => props.landingPage && css`
-    background-color: #72335a;
-    color: white;
+    background-color: ${colors.primary};
+    color: ${colors.white};
   `}
 `;
 
