@@ -2,7 +2,7 @@
 
 Hello OptimHire and Credijusto teams, I'm honored you took the time to evaluate me and give me the chance to be part of your team.
 
-## Before running any npm command be sure to be in '/client' folder:
+## Before running any npm command be sure to be inside '/client' folder:
 
 #### `cd client`
 
